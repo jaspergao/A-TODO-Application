@@ -1,4 +1,6 @@
 import model.*;
+import utility.JsonFileIO;
+
 import java.util.*;
 
 // A simple "To Do" app
@@ -11,6 +13,7 @@ public class ConsoleToDoApp {
     public static void main(String[] args) {
         input = new Scanner(System.in);
         todo = new ArrayList<>();
+        todo = JsonFileIO.read();
         
         printLogo();
         while (!exit) {
@@ -23,10 +26,12 @@ public class ConsoleToDoApp {
     private static void takeActionBasedOnInput() {
         switch (userInput.toUpperCase().charAt(0)) {
             case 'A': addNewTask();
+                JsonFileIO.write(todo); //TODO:added the write
                 break;
             case 'D': displayTaskDetails();
                 break;
             case 'Q': exit = true;
+
                 break;
             default: System.out.println("Invalid input!");
         }
