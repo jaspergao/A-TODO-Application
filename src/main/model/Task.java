@@ -216,7 +216,6 @@ public class Task {
         }
         Task task = (Task) o;
         return Objects.equals(description, task.description)
-                // && Objects.equals(tags, task.tags)
                 && Objects.equals(dueDate, task.dueDate)
                 && Objects.equals(priority, task.priority)
                 && status == task.status;
