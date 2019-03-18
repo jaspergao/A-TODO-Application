@@ -62,7 +62,7 @@ public class PomoTodoApp extends Application {
         setScene(new ListView(tasks));
     }
 
-    //EFFECTS: probabilty dont need this
+    //EFFECTS:  it stops and write task
     @Override
     public void stop() throws Exception {
         JsonFileIO.write(tasks);
