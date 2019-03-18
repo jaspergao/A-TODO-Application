@@ -128,6 +128,7 @@ public class TodobarController implements Initializable {
             switch (selectedIndex) {
                 case 0:
                     setScene(new EditTask(task));
+
                     Logger.log("TodobarOptionsPopUpController", "Edit is not supported in this version");
                     break;
                 case 1:

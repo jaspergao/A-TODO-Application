@@ -130,6 +130,7 @@ public class EditTaskController implements Initializable {
         saveStatus();
         savePriority();
         saveTags();
+        setScene(new ListView(getTasks()));
         Logger.log("EditTaskController", "Save task:\n" + task);
     }
     

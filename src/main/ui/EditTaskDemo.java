@@ -17,18 +17,18 @@ public class EditTaskDemo extends Application {
     public static final double HEIGHT = 800;
     private static Task task = new Task("Buy milk ## today; important; grocery");
     private static Stage primaryStage;
-    
+
     public static void main(String[] args) {
         launch(args);
     }
-    
+
     // REQUIRES: stage != null
     // MODIFIES: this
     // EFFECTS: sets the primary stage
     private static void setPrimaryStage(Stage stage) {
         primaryStage = stage;
     }
-    
+
     // REQUIRES: primaryStage != null AND root != null
     public static void setScene(Parent root) {
         try {
@@ -40,7 +40,7 @@ public class EditTaskDemo extends Application {
             System.out.println("Failed to load new Scene!");
         }
     }
-    
+
     // EFFECTS: Application starts here!
     @Override
     public void start(Stage primaryStage) throws Exception {
