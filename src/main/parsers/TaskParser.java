@@ -19,7 +19,6 @@ public class TaskParser {
     // Note: input is a string representation of a JSONArray
     public List<Task> parse(String input) {
         List<Task> tasks = new ArrayList<>();
-        System.out.println(":" + input);
         JSONArray tasksArray = new JSONArray(input);
         for (Object object : tasksArray) {
             JSONObject jsonObject = (JSONObject) object;

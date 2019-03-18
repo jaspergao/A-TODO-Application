@@ -224,7 +224,6 @@ public class Task {
     
     @Override
     public int hashCode() {
-        // return Objects.hash(description, tags, dueDate, priority, status);
         return Objects.hash(description, dueDate, priority, status);
     }
 }

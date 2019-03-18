@@ -26,12 +26,11 @@ public class ConsoleToDoApp {
     private static void takeActionBasedOnInput() {
         switch (userInput.toUpperCase().charAt(0)) {
             case 'A': addNewTask();
-                JsonFileIO.write(todo); //TODO:added the write
+                JsonFileIO.write(todo);
                 break;
             case 'D': displayTaskDetails();
                 break;
             case 'Q': exit = true;
-
                 break;
             default: System.out.println("Invalid input!");
         }

@@ -10,6 +10,8 @@ import utility.JsonFileIO;
 import java.util.ArrayList;
 import java.util.List;
 
+import static utility.JsonFileIO.jsonDataFile;
+
 // The PomoTODO GUI Application
 public class PomoTodoApp extends Application {
     public static final String TITLE = "PomoTODO";
