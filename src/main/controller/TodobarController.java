@@ -127,10 +127,10 @@ public class TodobarController implements Initializable {
             int selectedIndex = optionPopUpList.getSelectionModel().getSelectedIndex();
             switch (selectedIndex) {
                 case 0:
+                    setScene(new EditTask(task));
                     Logger.log("TodobarOptionsPopUpController", "Edit is not supported in this version");
                     break;
                 case 1:
-                    // remove task here
                     List<Task> tasks = getTasks();
                     tasks.remove(task);
                     JsonFileIO.write(tasks);

@@ -24,6 +24,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.ResourceBundle;
 
+import static ui.PomoTodoApp.getTasks;
+import static ui.PomoTodoApp.setScene;
+
 // Controller class for EditTask UI
 public class EditTaskController implements Initializable {
     @FXML
@@ -187,7 +190,7 @@ public class EditTaskController implements Initializable {
     public void cancelEditTask() {
         Logger.log("EditTaskController", "Edit Task cancelled.");
         Logger.log("EditTaskController", "Close application");
-        Platform.exit();
+        setScene(new ListView(getTasks()));
     }
     
     @Override
