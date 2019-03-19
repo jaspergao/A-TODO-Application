@@ -61,12 +61,5 @@ public class PomoTodoApp extends Application {
         tasks = tasksFromJson;
         setScene(new ListView(tasks));
     }
-
-    //EFFECTS:  it stops and write task
-    @Override
-    public void stop() throws Exception {
-        JsonFileIO.write(tasks);
-        super.stop();
-    }
-
+    
 }

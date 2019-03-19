@@ -96,8 +96,8 @@ public class TodobarController implements Initializable {
             public void handle(MouseEvent e) {
                 viewOptionPopUp.show(todoOptionsPopUpBurger,
                         JFXPopup.PopupVPosition.TOP,
-                        JFXPopup.PopupHPosition.LEFT,
-                        12,
+                        JFXPopup.PopupHPosition.RIGHT,
+                        -12,
                         15);
             }
         });
@@ -110,8 +110,8 @@ public class TodobarController implements Initializable {
             public void handle(MouseEvent e) {
                 todoBarActionPopUp.show(todoActionsPopUpBurger,
                         JFXPopup.PopupVPosition.TOP,
-                        JFXPopup.PopupHPosition.RIGHT,
-                        -12,
+                        JFXPopup.PopupHPosition.LEFT,
+                        12,
                         15);
             }
         });
