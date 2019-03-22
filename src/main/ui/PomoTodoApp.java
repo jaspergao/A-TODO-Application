@@ -61,5 +61,5 @@ public class PomoTodoApp extends Application {
         tasks = tasksFromJson;
         setScene(new ListView(tasks));
     }
-    
+
 }

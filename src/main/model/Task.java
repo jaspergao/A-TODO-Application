@@ -149,9 +149,6 @@ public class Task {
     //     returns false otherwise
     //  throws NullArgumentException if tag is null
     public boolean containsTag(Tag tag) {
-        if (tag == null) {
-            throw new NullArgumentException("Invalid Argument: tag cannot be null");
-        }
         return tags.contains(tag);
     }
 
