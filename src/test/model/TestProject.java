@@ -1,5 +1,6 @@
 package model;
 
+import model.exceptions.EmptyStringException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -137,6 +138,29 @@ public class TestProject {
         p1.add(notF2);
 
         assertFalse(p1.isCompleted());
+    }
+
+    @Test
+    void testEqualsForTask() {
+        assertTrue(p1.equals(new Project("project")));
+        assertTrue(p1.equals(p1));
+        assertFalse(p1.equals(p1.getTasks()));
+
+    }
+
+    @Test
+    void testHashCodeForTask(){
+        Project p2 = new Project("project");
+        assertEquals(p1.hashCode(),p2.hashCode());
+    }
+
+    @Test
+    void testDescriptionIsNull() {
+        try {
+            Project p2 = new Project("");
+        } catch (EmptyStringException e) {
+            //
+        }
     }
 
 

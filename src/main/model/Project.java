@@ -92,9 +92,6 @@ public class Project {
     // EFFECTS: returns true if this project contains the task
     //   throws NullArgumentException when task is null
     public boolean contains(Task task) {
-        if (task == null) {
-            throw new NullArgumentException("Illegal argument: task is null");
-        }
         return tasks.contains(task);
     }
     
