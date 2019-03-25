@@ -2,6 +2,8 @@ package model;
 
 
 import model.exceptions.EmptyStringException;
+import model.exceptions.InvalidProgressException;
+import model.exceptions.NegativeInputException;
 import model.exceptions.NullArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -39,6 +41,8 @@ public class TestTask {
     @Test
     public void testConstructor(){
 
+        assertEquals(0, task.getEstimatedTimeToComplete());
+        assertEquals(0, task.getProgress());
         assertEquals("new task",task.getDescription());
         assertEquals("TODO", task.getStatus().toString());
         assertEquals(null, task.getDueDate());
@@ -50,7 +54,6 @@ public class TestTask {
     public void testTag(){
         Tag tag = new Tag("test");
         Tag unmodifiedTag = new Tag("final");
-        Tag duplicateTag = new Tag("test");
 
         assertFalse(task.containsTag(tag.getName()));
         task.addTag(tag.getName());
@@ -420,6 +423,56 @@ public class TestTask {
         t1.addTag(tag1);
         System.out.println(t1.toString());
     }
+
+    @Test
+    void testSetProgressWithInvalidInputBelowZero() {
+        try {
+            task.setProgress(-1);
+        } catch (InvalidProgressException e) {
+            //
+        }
+    }
+
+    @Test
+    void testSetProgressWithInvalidInputAboveHundred() {
+        try {
+            task.setProgress(101);
+        } catch (InvalidProgressException e) {
+            //
+        }
+    }
+
+    @Test
+    void testSetProgress() {
+        assertEquals(0,task.getProgress());
+        task.setProgress(20);
+        assertEquals(20, task.getProgress());
+        task.setProgress(100);
+        assertEquals(100, task.getProgress());
+    }
+
+    @Test
+    void testSetEstimatedTimeToComplete() {
+        assertEquals(0, task.getEstimatedTimeToComplete());
+        task.setEstimatedTimeToComplete(2000);
+        assertEquals(2000, task.getEstimatedTimeToComplete());
+        task.setEstimatedTimeToComplete(101);
+        assertEquals(101, task.getEstimatedTimeToComplete());
+        task.setEstimatedTimeToComplete(100000);
+        assertEquals(100000, task.getEstimatedTimeToComplete());
+    }
+
+    @Test
+    void testSetEstimatedTimeToCompleteInvalidInput() {
+        assertEquals(0, task.getEstimatedTimeToComplete());
+        try {
+            task.setEstimatedTimeToComplete(-10);
+        } catch (NegativeInputException e) {
+            //
+        }
+    }
+
+
 
 
 }

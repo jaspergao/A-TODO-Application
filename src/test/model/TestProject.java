@@ -26,24 +26,25 @@ public class TestProject {
 
     @Test
     public void testAdd() {
-        assertEquals(0, p1.getTasks().size());
+        assertEquals(0, p1.getNumberOfTasks());
+        assertEquals(0, p1.getProgress());
         p1.add(t1);
-        assertEquals(1, p1.getTasks().size());
+        assertEquals(1, p1.getNumberOfTasks());
         p1.add(t1);
-        assertEquals(1, p1.getTasks().size());
+        assertEquals(1, p1.getNumberOfTasks());
 
     }
 
     @Test
     public void testRemove() {
         p1.remove(t1);
-        assertEquals(0,p1.getTasks().size());
+        assertEquals(0,p1.getNumberOfTasks());
         p1.add(t1);
         assertTrue(p1.contains(t1));
-        assertEquals(1, p1.getTasks().size());
+        assertEquals(1, p1.getNumberOfTasks());
         p1.remove(t1);
         assertFalse(p1.contains(t1));
-        assertEquals(0, p1.getTasks().size());
+        assertEquals(0, p1.getNumberOfTasks());
 
     }
 
@@ -107,44 +108,44 @@ public class TestProject {
         assertTrue(p1.contains(t1));
     }
 
-    @Test
-    public void testIsCompleted(){
-        t1.setStatus(Status.DONE);
-        p1.add(t1);
-        Task completedTask = new Task ("Completed Task");
-        completedTask.setStatus(Status.DONE);
-        p1.add(completedTask);
+//    @Test
+//    public void testIsCompleted(){
+//        t1.setStatus(Status.DONE);
+//        p1.add(t1);
+//        Task completedTask = new Task ("Completed Task");
+//        completedTask.setStatus(Status.DONE);
+//        p1.add(completedTask);
+//
+//        assertTrue(p1.isCompleted());
+//
+//    }
 
-        assertTrue(p1.isCompleted());
+//    @Test
+//    public void testIsNotCompleted(){
+//        t1.setStatus(Status.IN_PROGRESS);
+//        p1.add(t1);
+//        assertFalse(p1.isCompleted());
+//    }
 
-    }
-
-    @Test
-    public void testIsNotCompleted(){
-        t1.setStatus(Status.IN_PROGRESS);
-        p1.add(t1);
-        assertFalse(p1.isCompleted());
-    }
-
-    @Test
-    public void testIsNotCompletedWith3Task(){
-        t1.setStatus(Status.UP_NEXT);
-        p1.add(t1);
-        Task finish = new Task("finish");
-        Task notF2 = new Task ("not finish too");
-        finish.setStatus(Status.DONE);
-        notF2.setStatus(Status.IN_PROGRESS);
-        p1.add(finish);
-        p1.add(notF2);
-
-        assertFalse(p1.isCompleted());
-    }
+//    @Test
+//    public void testIsNotCompletedWith3Task(){
+//        t1.setStatus(Status.UP_NEXT);
+//        p1.add(t1);
+//        Task finish = new Task("finish");
+//        Task notF2 = new Task ("not finish too");
+//        finish.setStatus(Status.DONE);
+//        notF2.setStatus(Status.IN_PROGRESS);
+//        p1.add(finish);
+//        p1.add(notF2);
+//
+//        assertFalse(p1.isCompleted());
+//    }
 
     @Test
     void testEqualsForTask() {
         assertTrue(p1.equals(new Project("project")));
         assertTrue(p1.equals(p1));
-        assertFalse(p1.equals(p1.getTasks()));
+        //assertFalse(p1.equals(p1.getTasks()));
 
     }
 
