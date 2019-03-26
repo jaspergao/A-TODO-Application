@@ -162,6 +162,9 @@ public class TestTask {
         Priority p3 = new Priority(3);
         T1.setPriority(p3);
         assertFalse(T1.equals(new Task("Standard Task")));
+        task.setDueDate(new DueDate());
+        assertTrue(task.getDueDate().equals(task.getDueDate()));
+        assertTrue(task.getPriority().equals(task.getPriority()));
     }
 
     @Test
@@ -500,6 +503,20 @@ public class TestTask {
     void testRemoveNullTag() {
         assertThrows(NullArgumentException.class, () -> {
             task.removeTag((Tag) null);
+        });
+    }
+
+    @Test
+    void testAddNullTag() {
+        assertThrows(NullArgumentException.class, () -> {
+            task.addTag((Tag) null);
+        });
+    }
+
+    @Test
+    void testAddTagNullString() {
+        assertThrows(EmptyStringException.class, () -> {
+            task.addTag((String) null);
         });
     }
 

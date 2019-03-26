@@ -11,7 +11,7 @@ import java.util.Objects;
 public class Project extends Todo {
     private String description;
     private List<Todo> tasks;
-    
+
     // MODIFIES: this
     // EFFECTS: constructs a project with the given description
     //     the constructed project shall have no tasks.
@@ -22,18 +22,16 @@ public class Project extends Todo {
         tasks = new ArrayList<>();
 
     }
-    
+
     // MODIFIES: this
     // EFFECTS: task is added to this project (if it was not already part of it)
     //   throws NullArgumentException when task is null
     public void add(Todo task) {
-        if (task == null) {
-            throw new NullArgumentException();
-        } else if (!contains(task) && !task.equals(this)) {
+        if (!contains(task) && !task.equals(this)) {
             tasks.add(task);
         }
     }
-    
+
     // MODIFIES: this
     // EFFECTS: removes task from this project
     //   throws NullArgumentException when task is null
@@ -44,7 +42,7 @@ public class Project extends Todo {
             tasks.remove(task);
         }
     }
-    
+
     // EFFECTS: returns the description of this project
     public String getDescription() {
         return description;
@@ -76,7 +74,7 @@ public class Project extends Todo {
             return 0;
         }
         int totalProgress = 0;
-        for (Todo t: tasks) {
+        for (Todo t : tasks) {
             totalProgress += t.getProgress();
         }
         return (int) Math.floor(totalProgress / getNumberOfTasks());
@@ -103,7 +101,7 @@ public class Project extends Todo {
         }
         return tasks.contains(task);
     }
-    
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -115,7 +113,7 @@ public class Project extends Todo {
         Project project = (Project) o;
         return Objects.equals(description, project.description);
     }
-    
+
     @Override
     public int hashCode() {
         return Objects.hash(description);

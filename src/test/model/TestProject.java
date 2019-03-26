@@ -2,6 +2,7 @@ package model;
 
 import model.exceptions.EmptyStringException;
 import model.exceptions.InvalidProgressException;
+import model.exceptions.NullArgumentException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -207,14 +208,6 @@ public class TestProject {
         assertEquals(24, p2.getEstimatedTimeToComplete());
     }
 
-//    @Test
-//    void testAddNullTask() {
-//        try {
-//            p1.add(new Task(null));
-//        } catch (NullArgumentException e) {
-//            //
-//        }
-//    }
 
     @Test
     void testAddSubProject() {
@@ -231,5 +224,34 @@ public class TestProject {
         p1.add(t1);
         assertFalse(p1.isCompleted());
     }
+
+    @Test
+    void testContainsTask() {
+        p1.add(t1);
+        try {
+            p1.contains((Task) null);
+        } catch (NullArgumentException e) {
+            //
+        }
+    }
+
+    @Test
+    void testAddTaskNull() {
+        try {
+            p1.add((Task) null);
+        } catch (NullArgumentException e) {
+            //
+        }
+    }
+
+    @Test
+    void testRemoveTaskNull() {
+        try {
+            p1.remove((Task) null);
+        } catch (NullArgumentException e) {
+            //
+        }
+    }
+
 
 }

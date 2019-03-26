@@ -42,6 +42,9 @@ public class Task extends Todo {
     //  throws EmptyStringException if tagName is null or empty
     // Note: no two tags are to have the same name
     public void addTag(String tagName) {
+        if (tagName == null) {
+            throw new EmptyStringException("Tag name cannot be null");
+        }
         addTag(new Tag(tagName));
     }
     
@@ -49,6 +52,9 @@ public class Task extends Todo {
     // EFFECTS: adds tag to this task if it is not already exist
     //  throws NullArgumentException if tag is null
     public void addTag(Tag tag) {
+        if (tag == null) {
+            throw new NullArgumentException("Tag cannot be null");
+        }
         if (!containsTag(tag)) {
             tags.add(tag);
             tag.addTask(this);
