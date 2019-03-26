@@ -101,6 +101,16 @@ public class TestTask {
     }
 
     @Test
+    public void testDescriptionEmpty() {
+        description = "";
+        try {
+            task.setDescription(description);
+        } catch (EmptyStringException e) {
+            //
+        }
+    }
+
+    @Test
     public void testDueDate(){
         Calendar cal = Calendar.getInstance();
         cal.set(2019, Calendar.AUGUST, 12, 23, 59);
@@ -180,6 +190,16 @@ public class TestTask {
     void testContainsTagsStringNull() {
         try {
             String tagName = null;
+            task.containsTag(tagName);
+        } catch (EmptyStringException e) {
+            //
+        }
+    }
+
+    @Test
+    void testContainsTagsStringEmpty() {
+        try {
+            String tagName = "";
             task.containsTag(tagName);
         } catch (EmptyStringException e) {
             //
