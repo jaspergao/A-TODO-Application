@@ -146,6 +146,8 @@ public class TestTask {
     void testEqualsForTask() {
         Task T1 = new Task("Standard Task");
         assertTrue(T1.equals(T1));
+        assertTrue(task.equals(new Task("new task")));
+        assertTrue(task.equals(task));
         assertFalse(T1.equals(T1.getPriority()));
         assertTrue(T1.equals(new Task("Standard Task")));
         Priority p3 = new Priority(3);
@@ -183,19 +185,6 @@ public class TestTask {
             //
         }
     }
-
-    public void testTagParserJustDoubleHashWithNoTags(){
-        String description = "CS210  ##";
-        Task T1 = new Task(description);
-        try {
-            p.parse(description,T1);
-            assertEquals("CS210  ",T1.getDescription());
-            assertEquals(0,T1.getTags().size());
-        } catch (ParsingException p) {
-            fail();
-        }
-    }
-
 
     @Test
     public void testTagParserJustDoubleHash(){
@@ -468,6 +457,15 @@ public class TestTask {
         try {
             task.setEstimatedTimeToComplete(-10);
         } catch (NegativeInputException e) {
+            //
+        }
+    }
+
+    @Test
+    void testTaskEmpty() {
+        try {
+            Task taskEmpty = new Task("");
+        } catch (EmptyStringException e) {
             //
         }
     }

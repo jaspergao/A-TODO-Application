@@ -1,10 +1,8 @@
 package model;
 
-import model.exceptions.EmptyStringException;
 import model.exceptions.NullArgumentException;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -29,7 +27,9 @@ public class Project extends Todo {
     // EFFECTS: task is added to this project (if it was not already part of it)
     //   throws NullArgumentException when task is null
     public void add(Todo task) {
-        if (!contains(task) && !contains(this)) {
+        if (task == null) {
+            throw new NullArgumentException();
+        } else if (!contains(task) && !task.equals(this)) {
             tasks.add(task);
         }
     }
@@ -38,7 +38,9 @@ public class Project extends Todo {
     // EFFECTS: removes task from this project
     //   throws NullArgumentException when task is null
     public void remove(Todo task) {
-        if (contains(task)) {
+        if (task == null) {
+            throw new NullArgumentException();
+        } else if (contains(task)) {
             tasks.remove(task);
         }
     }
@@ -96,6 +98,9 @@ public class Project extends Todo {
     // EFFECTS: returns true if this project contains the task
     //   throws NullArgumentException when task is null
     public boolean contains(Todo task) {
+        if (task == null) {
+            throw new NullArgumentException();
+        }
         return tasks.contains(task);
     }
     
