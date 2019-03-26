@@ -71,7 +71,6 @@ public class TestTask {
         assertTrue(task.containsTag(unmodifiedTag.getName()));
         task.addTag("final");
         assertEquals(1,task.getTags().size());
-
     }
 
     @Test
@@ -488,6 +487,20 @@ public class TestTask {
         } catch (EmptyStringException e) {
             //
         }
+    }
+
+    @Test
+    void testRemoveNullTagNullString() {
+        assertThrows(EmptyStringException.class, () -> {
+            task.removeTag((String) null);
+        });
+    }
+
+    @Test
+    void testRemoveNullTag() {
+        assertThrows(NullArgumentException.class, () -> {
+            task.removeTag((Tag) null);
+        });
     }
 
 

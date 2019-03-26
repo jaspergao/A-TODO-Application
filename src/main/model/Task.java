@@ -59,6 +59,9 @@ public class Task extends Todo {
     // EFFECTS: removes the tag with name tagName from this task
     //  throws EmptyStringException if tagName is empty or null
     public void removeTag(String tagName) {
+        if (tagName == null) {
+            throw new EmptyStringException("Tag name cannot be null");
+        }
         removeTag(new Tag(tagName));
     }
     
@@ -66,6 +69,9 @@ public class Task extends Todo {
     // EFFECTS: removes tag from this task
     //  throws NullArgumentException if tag is null
     public void removeTag(Tag tag) {
+        if (tag == null) {
+            throw new NullArgumentException("Tag cannot be null");
+        }
         if (containsTag(tag)) {
             tags.remove(tag);
             tag.removeTask(this);
