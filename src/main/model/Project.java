@@ -22,13 +22,14 @@ public class Project extends Todo {
         super(description);
         this.description = description;
         tasks = new ArrayList<>();
+
     }
     
     // MODIFIES: this
     // EFFECTS: task is added to this project (if it was not already part of it)
     //   throws NullArgumentException when task is null
     public void add(Todo task) {
-        if (!contains(task)) {
+        if (!contains(task) && !contains(this)) {
             tasks.add(task);
         }
     }
@@ -47,10 +48,14 @@ public class Project extends Todo {
         return description;
     }
 
-    
+    // EFFECTS: returns the total estimated time to complete for all task and (sub projects)
     @Override
     public int getEstimatedTimeToComplete() {
-        return 0;
+        int totalTime = 0;
+        for (Todo t : tasks) {
+            totalTime = t.getEstimatedTimeToComplete() + totalTime;
+        }
+        return totalTime;
     }
 
 
@@ -65,7 +70,14 @@ public class Project extends Todo {
     //     the value returned is the average of the percentage of completion of
     //     all the tasks and sub-projects in this project.
     public int getProgress() {
-        return 0; // stub
+        if (tasks.isEmpty()) {
+            return 0;
+        }
+        int totalProgress = 0;
+        for (Todo t: tasks) {
+            totalProgress += t.getProgress();
+        }
+        return (int) Math.floor(totalProgress / getNumberOfTasks());
     }
 
     // EFFECTS: returns the number of tasks in this project

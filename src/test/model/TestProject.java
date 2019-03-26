@@ -1,6 +1,7 @@
 package model;
 
 import model.exceptions.EmptyStringException;
+import model.exceptions.InvalidProgressException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -55,42 +56,6 @@ public class TestProject {
 
 
     @Test
-    public void testGetProgress() {
-        assertEquals(100, p1.getProgress());
-        Task t2 = new Task("second task");
-        t2.setStatus(Status.DONE);
-        p1.add(t2);
-        assertEquals(100, p1.getProgress());
-
-    }
-
-    @Test
-    public void testGetProgressHalf(){
-        t1.setStatus(Status.DONE);
-        p1.add(t1);
-        Task taskStatusDone = new Task("to finish");
-        taskStatusDone.setStatus(Status.TODO);
-        p1.add(taskStatusDone);
-
-        assertEquals(50, p1.getProgress());
-    }
-
-    @Test
-    public void testGetProgressAThird(){
-        t1.setStatus(Status.DONE);
-        p1.add(t1);
-        Task notDone1 = new Task("not done");
-        Task notDone2 = new Task("also not done");
-        notDone1.setStatus(Status.IN_PROGRESS);
-        notDone2.setStatus(Status.UP_NEXT);
-        p1.add(notDone1);
-        p1.add(notDone2);
-
-        assertEquals(33,p1.getProgress());
-    }
-
-
-    @Test
     public void testGetNumberOfTasks() {
         assertEquals(0, p1.getNumberOfTasks());
         Task task = new Task("test task");
@@ -108,45 +73,11 @@ public class TestProject {
         assertTrue(p1.contains(t1));
     }
 
-//    @Test
-//    public void testIsCompleted(){
-//        t1.setStatus(Status.DONE);
-//        p1.add(t1);
-//        Task completedTask = new Task ("Completed Task");
-//        completedTask.setStatus(Status.DONE);
-//        p1.add(completedTask);
-//
-//        assertTrue(p1.isCompleted());
-//
-//    }
-
-//    @Test
-//    public void testIsNotCompleted(){
-//        t1.setStatus(Status.IN_PROGRESS);
-//        p1.add(t1);
-//        assertFalse(p1.isCompleted());
-//    }
-
-//    @Test
-//    public void testIsNotCompletedWith3Task(){
-//        t1.setStatus(Status.UP_NEXT);
-//        p1.add(t1);
-//        Task finish = new Task("finish");
-//        Task notF2 = new Task ("not finish too");
-//        finish.setStatus(Status.DONE);
-//        notF2.setStatus(Status.IN_PROGRESS);
-//        p1.add(finish);
-//        p1.add(notF2);
-//
-//        assertFalse(p1.isCompleted());
-//    }
 
     @Test
     void testEqualsForTask() {
         assertTrue(p1.equals(new Project("project")));
         assertTrue(p1.equals(p1));
-        //assertFalse(p1.equals(p1.getTasks()));
-
     }
 
     @Test
@@ -163,6 +94,121 @@ public class TestProject {
             //
         }
     }
+
+    @Test
+    void testProgressProject() {
+        Task task1 = new Task("task1");
+        Task task2 = new Task("task2");
+        Task task3 = new Task("task3");
+
+        p1.add(task1);
+        p1.add(task2);
+        p1.add(task3);
+
+        assertEquals(0, p1.getProgress());
+
+        task1.setProgress(100);
+
+        assertEquals(33, p1.getProgress());
+        task2.setProgress(50);
+        task3.setProgress(25);
+        assertEquals(58, p1.getProgress());
+
+
+        Project p2 = new Project("project2");
+        Task task4 = new Task("task4");
+        p2.add(task4);
+        p2.add(p1);
+
+        assertEquals(29, p2.getProgress());
+
+    }
+
+    @Test
+    void testGetProgressEdgeCase() {
+        Task task1 = new Task("task1");
+        Task task2 = new Task("task2");
+        Task task3 = new Task("task3");
+
+        p1.add(task1);
+        p1.add(task2);
+        p1.add(task3);
+
+        assertEquals(0, p1.getProgress());
+
+        try {
+            task1.setProgress(-20);
+        } catch (InvalidProgressException e) {
+            //
+        }
+    }
+
+    @Test
+    void testGetProgressEdgeCase2() {
+        Task task1 = new Task("task1");
+        p1.add(task1);
+        assertEquals(0, p1.getProgress());
+        try {
+            task1.setProgress(101);
+        } catch (InvalidProgressException e) {
+            //
+        }
+    }
+
+    @Test
+    void testGetProgress100WithSubProject() {
+        Task task1 = new Task("task1");
+        Task task2 = new Task("task2");
+        Task task3 = new Task("task3");
+
+        p1.add(task1);
+        p1.add(task2);
+        p1.add(task3);
+
+        task1.setProgress(100);
+        task2.setProgress(100);
+        task3.setProgress(100);
+
+        assertTrue(p1.isCompleted());
+    }
+
+    @Test
+    void testGetTask() {
+        try {
+            p1.getTasks();
+        } catch (UnsupportedOperationException e) {
+            //
+        }
+    }
+
+    @Test
+    void testEstimateTimeToComplete() {
+        Task task1 = new Task("task1");
+        Task task2 = new Task("task2");
+        Task task3 = new Task("task3");
+
+        p1.add(task1);
+        p1.add(task2);
+        p1.add(task3);
+
+        assertEquals(0, p1.getEstimatedTimeToComplete());
+        task1.setEstimatedTimeToComplete(8);
+        assertEquals(8, p1.getEstimatedTimeToComplete());
+        task2.setEstimatedTimeToComplete(2);
+        task3.setEstimatedTimeToComplete(10);
+        assertEquals(20,p1.getEstimatedTimeToComplete());
+
+        Project p2 = new Project("project2");
+        Task task4 = new Task("task4");
+        p2.add(task4);
+        task4.setEstimatedTimeToComplete(4);
+
+        p2.add(p1);
+        assertEquals(24, p2.getEstimatedTimeToComplete());
+
+    }
+
+
 
 
 }
