@@ -17,7 +17,6 @@ public class Task extends Todo {
     private String description;
     private Set<Tag> tags;
     private DueDate dueDate;
-    private Priority priority;
     private Status status;
 
     // MODIFIES: this
@@ -31,7 +30,6 @@ public class Task extends Todo {
         this.description = description;
         tags = new HashSet<>();
         dueDate = NO_DUE_DATE;
-        priority = new Priority(4);
         status = Status.TODO;
         setDescription(description);
     }
@@ -89,20 +87,6 @@ public class Task extends Todo {
         return Collections.unmodifiableSet(tags);
     }
 
-    // EFFECTS: returns the priority of this task
-    public Priority getPriority() {
-        return priority;
-    }
-
-    // MODIFIES: this
-    // EFFECTS: sets the priority of this task
-    //   throws NullArgumentException when priority is null
-    public void setPriority(Priority priority) {
-        if (priority == null) {
-            throw new NullArgumentException("Illegal argument: priority is null");
-        }
-        this.priority = priority;
-    }
 
     // EFFECTS: returns the status of this task
     public Status getStatus() {

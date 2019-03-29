@@ -2,13 +2,11 @@ package model;
 
 import model.exceptions.NullArgumentException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 // Represents a Project, a collection of zero or more Tasks
 // Class Invariant: no duplicated task; order of tasks is preserved
-public class Project extends Todo {
+public class Project extends Todo implements Iterable<Todo> {
     private String description;
     private List<Todo> tasks;
 
@@ -118,4 +116,88 @@ public class Project extends Todo {
     public int hashCode() {
         return Objects.hash(description);
     }
+
+    @Override
+    public Iterator<Todo> iterator() {
+        return new TodoIterator();
+    }
+
+    private class TodoIterator implements Iterator<Todo> {
+        private int taskIndex;
+        private int priorityLevel;
+        private int lastTask;
+
+
+        // EFFECTS: constructs iterator
+        TodoIterator() {
+            taskIndex = 0;
+            priorityLevel = 1;
+            lastTask = tasks.size() - 1;
+        }
+
+        @Override
+        public boolean hasNext() {
+            return taskIndex < tasks.size();
+        }
+
+        @Override
+        public Todo next() {
+            if (!hasNext()) {
+                throw new NoSuchElementException();
+            }
+            while (priorityLevel == 1) {
+                if (tasks.get(taskIndex).getPriority().equals(new Priority(1))) {
+                    taskIndex++;
+                    return tasks.get(taskIndex);
+                } else if (taskIndex == lastTask) {
+                    priorityLevel++;
+                    taskIndex = 0;
+                    break;
+                } else {
+                    taskIndex++;
+                }
+            }
+
+            while (priorityLevel == 2) {
+                if (tasks.get(taskIndex).getPriority().equals(new Priority(2))) {
+                    taskIndex++;
+                    return tasks.get(taskIndex);
+                } else if (taskIndex == lastTask) {
+                    priorityLevel++;
+                    taskIndex = 0;
+                    break;
+                } else {
+                    taskIndex++;
+                }
+            }
+
+            while (priorityLevel == 3) {
+                if (tasks.get(taskIndex).getPriority().equals(new Priority(3))) {
+                    taskIndex++;
+                    return tasks.get(taskIndex);
+                } else if (taskIndex == lastTask) {
+                    priorityLevel++;
+                    taskIndex = 0;
+                    break;
+                } else {
+                    taskIndex++;
+                }
+            }
+            while (priorityLevel == 4) {
+                if (tasks.get(taskIndex).getPriority().equals(new Priority(3))) {
+                    taskIndex++;
+                    return tasks.get(taskIndex);
+                } else if (taskIndex == lastTask) {
+                    break;
+                } else {
+                    taskIndex++;
+                }
+            }
+            throw new NoSuchElementException();
+        }
+
+    }
+
+
+
 }
