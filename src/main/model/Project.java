@@ -127,6 +127,8 @@ public class Project extends Todo implements Iterable<Todo> {
         private int priorityLevel;
         private int lastTask;
         private int iteratedBefore;
+        private Todo currentTodo;
+        private Priority todoPriority;
 
         // EFFECTS: constructs iterator
         TodoIterator() {
@@ -166,8 +168,8 @@ public class Project extends Todo implements Iterable<Todo> {
 
         //EFFECTS: takes the current index of to do and checks if it satisfies the iterator condition and priority level
         private Todo iterateNext(int index) {
-            Todo currentTodo = tasks.get(index);
-            Priority todoPriority = currentTodo.getPriority();
+            currentTodo = tasks.get(index);
+            todoPriority = currentTodo.getPriority();
             if ((priorityLevel == 1 && todoPriority.isImportant() && todoPriority.isUrgent())
                     || (priorityLevel == 2 && todoPriority.isImportant() && !todoPriority.isUrgent())
                     || (priorityLevel == 3 && !todoPriority.isImportant() && todoPriority.isUrgent())
