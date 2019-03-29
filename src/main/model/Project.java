@@ -136,11 +136,13 @@ public class Project extends Todo implements Iterable<Todo> {
             iteratedBefore = 0;
         }
 
+        //EFFECTS:
         @Override
         public boolean hasNext() {
             return iteratedBefore < tasks.size();
         }
 
+        //EFFECT: returns proper to do with correct priority
         @Override
         public Todo next() {
             for (int ti = taskIndex; ti < tasks.size(); ti++) {
@@ -161,6 +163,8 @@ public class Project extends Todo implements Iterable<Todo> {
             throw new NoSuchElementException();
         }
 
+
+        //EFFECTS: takes the current index of to do and checks if it satisfies the iterator condition and priority level
         private Todo iterateNext(int index) {
             Todo currentTodo = tasks.get(index);
             Priority todoPriority = currentTodo.getPriority();
@@ -173,9 +177,8 @@ public class Project extends Todo implements Iterable<Todo> {
                     taskIndex = 0;
                     priorityLevel++;
                 } else {
-                    taskIndex++;
+                    taskIndex = index + 1;
                 }
-
                 return currentTodo;
             }
             return null;

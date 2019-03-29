@@ -20,8 +20,6 @@ public class TestProject {
     private List<Task> listOfTasks;
 
 
-
-
     @BeforeEach
     public void runBefore() {
         p1 = new Project("project");
