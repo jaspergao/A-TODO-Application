@@ -126,78 +126,59 @@ public class Project extends Todo implements Iterable<Todo> {
         private int taskIndex;
         private int priorityLevel;
         private int lastTask;
-
+        private int iteratedBefore;
 
         // EFFECTS: constructs iterator
         TodoIterator() {
             taskIndex = 0;
             priorityLevel = 1;
             lastTask = tasks.size() - 1;
+            iteratedBefore = 0;
         }
 
         @Override
         public boolean hasNext() {
-            return taskIndex < tasks.size();
+            return iteratedBefore < tasks.size();
         }
 
         @Override
         public Todo next() {
-            if (!hasNext()) {
-                throw new NoSuchElementException();
-            }
-            while (priorityLevel == 1) {
-                if (tasks.get(taskIndex).getPriority().equals(new Priority(1))) {
-                    taskIndex++;
-                    return tasks.get(taskIndex);
-                } else if (taskIndex == lastTask) {
-                    priorityLevel++;
-                    taskIndex = 0;
-                    break;
+            for (int ti = taskIndex; ti < tasks.size(); ti++) {
+                Todo taskToReturn = iterateNext(ti);
+                if (taskToReturn == null) {
+                    if (ti == lastTask) {
+                        if (priorityLevel == 4) {
+                            return null;
+                        } else {
+                            ti = -1;
+                            priorityLevel++;
+                        }
+                    }
                 } else {
-                    taskIndex++;
-                }
-            }
-
-            while (priorityLevel == 2) {
-                if (tasks.get(taskIndex).getPriority().equals(new Priority(2))) {
-                    taskIndex++;
-                    return tasks.get(taskIndex);
-                } else if (taskIndex == lastTask) {
-                    priorityLevel++;
-                    taskIndex = 0;
-                    break;
-                } else {
-                    taskIndex++;
-                }
-            }
-
-            while (priorityLevel == 3) {
-                if (tasks.get(taskIndex).getPriority().equals(new Priority(3))) {
-                    taskIndex++;
-                    return tasks.get(taskIndex);
-                } else if (taskIndex == lastTask) {
-                    priorityLevel++;
-                    taskIndex = 0;
-                    break;
-                } else {
-                    taskIndex++;
-                }
-            }
-            while (priorityLevel == 4) {
-                if (tasks.get(taskIndex).getPriority().equals(new Priority(3))) {
-                    taskIndex++;
-                    return tasks.get(taskIndex);
-                } else if (taskIndex == lastTask) {
-                    break;
-                } else {
-                    taskIndex++;
+                    return taskToReturn;
                 }
             }
             throw new NoSuchElementException();
         }
 
+        private Todo iterateNext(int index) {
+            Todo currentTodo = tasks.get(index);
+            Priority todoPriority = currentTodo.getPriority();
+            if ((priorityLevel == 1 && todoPriority.isImportant() && todoPriority.isUrgent())
+                    || (priorityLevel == 2 && todoPriority.isImportant() && !todoPriority.isUrgent())
+                    || (priorityLevel == 3 && !todoPriority.isImportant() && todoPriority.isUrgent())
+                    || (priorityLevel == 4 && !todoPriority.isImportant() && !todoPriority.isUrgent())) {
+                iteratedBefore++;
+                if (index == lastTask) {
+                    taskIndex = 0;
+                    priorityLevel++;
+                } else {
+                    taskIndex++;
+                }
+
+                return currentTodo;
+            }
+            return null;
+        }
     }
-
-
-
 }

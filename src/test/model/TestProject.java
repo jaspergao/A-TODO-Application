@@ -9,14 +9,17 @@ import org.junit.jupiter.api.Test;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TestProject {
-    private Project p1;
-    private Task t1;
+    private Project p1, project1,project2,project3,subProject;
+    private Task t1, task1, task2,task3;
     private List<Task> listOfTasks;
+
+
 
 
     @BeforeEach
@@ -24,7 +27,142 @@ public class TestProject {
         p1 = new Project("project");
         t1 = new Task("task");
         listOfTasks = new ArrayList<>();
+
+
+
+        project1 = new Project("p1");
+        project2 = new Project("p2");
+        project3 = new Project("p3");
+        task1 = new Task("task1");
+        task2 = new Task("task2");
+        task3 = new Task("task3");
+        subProject = new Project("sub-project");
     }
+
+    @Test
+    void testIteratorWithSubProjectsAndTask() {
+        Priority p1 = new Priority(1);
+        Priority p3 = new Priority(3);
+        subProject.add(task1);
+        task2.setPriority(p3);
+        task3.setPriority(p3);
+        subProject.setPriority(p1);
+        project3.setPriority(p1);
+        project2.add(subProject);
+        project2.add(task2);
+        project2.add(task3);
+        project2.add(project3);
+        for (Todo todo : project2) {
+            System.out.println(todo.getPriority());
+        }
+    }
+
+    @Test
+    void testIteratorNotUrgentAndImportant() {
+        project1.add(task1);
+        project1.add(task2);
+        for (Todo todo : project1) {
+            assertFalse(todo.getPriority().isImportant());
+            assertFalse(todo.getPriority().isUrgent());
+        }
+    }
+
+
+    @Test
+    void testIteratorImportantAndUrgent() {
+        Priority firstPriority = new Priority(1);
+        task1.setPriority(firstPriority);
+        task2.setPriority(firstPriority);
+        project1.add(task1);
+        project1.add(task2);
+        for (Todo todo : project1) {
+            assertTrue(todo.getPriority().isImportant());
+            assertTrue(todo.getPriority().isUrgent());
+        }
+    }
+
+    @Test
+    void testIteratorNotImportantAndUrgent() {
+        Priority p = new Priority(3);
+        task2.setPriority(p);
+        task3.setPriority(p);
+        project1.add(task2);
+        project1.add(task3);
+        Iterator<Todo> iterator = project1.iterator();
+        Priority p1 = iterator.next().getPriority();
+        assertFalse(p1.isImportant());
+        assertTrue(p1.isUrgent());
+        assertEquals(new Priority(3), iterator.next().priority);
+
+    }
+
+    @Test
+    void testIteratorImportantAndNotUrgent() {
+        Priority p = new Priority(2);
+        task1.setPriority(p);
+        task2.setPriority(p);
+        project1.add(task1);
+        project1.add(task2);
+        for (Todo todo : project1) {
+            assertTrue(todo.getPriority().isImportant());
+            assertFalse(todo.getPriority().isUrgent());
+        }
+    }
+
+    @Test
+    void testIteratorDifferentPriority() {
+        Priority p1 = new Priority(3);
+        Priority p2 = new Priority(4);
+        Priority p3 = new Priority(3);
+        task1.setPriority(p1);
+        task2.setPriority(p2);
+        task3.setPriority(p3);
+        project1.add(task1);
+        project1.add(task2);
+        project1.add(task3);
+        for (Todo todo : project1) {
+            System.out.println(todo.getPriority());
+        }
+    }
+
+    @Test
+    void testIteratorReverseOrderOfPriority() {
+        Priority p1 = new Priority(4);
+        Priority p2 = new Priority(3);
+        task1.setPriority(p1);
+        task2.setPriority(p2);
+        project1.add(task1);
+        project1.add(task2);
+        for (Todo todo : project1) {
+            assertFalse(todo.getPriority().isImportant());
+            System.out.println(todo.getPriority());
+        }
+    }
+
+    @Test
+    void testIteratorOnlyDefault() {
+        Priority p1 = new Priority(4);
+        task1.setPriority(p1);
+        project1.add(t1);
+        for (Todo todo : project1) {
+            System.out.println(todo.getPriority());
+        }
+    }
+
+    @Test
+    public void testIteratorEmpty() {
+        Project emptyProject = new Project("Empty");
+        Iterator<Todo> itr = emptyProject.iterator();
+        assertFalse(itr.hasNext());
+
+        try {
+            itr.next();
+            fail();
+        } catch (NoSuchElementException e) {
+            assertEquals(0, 0);
+        }
+    }
+
 
 
     @Test
@@ -41,7 +179,7 @@ public class TestProject {
     @Test
     public void testRemove() {
         p1.remove(t1);
-        assertEquals(0,p1.getNumberOfTasks());
+        assertEquals(0, p1.getNumberOfTasks());
         p1.add(t1);
         assertTrue(p1.contains(t1));
         assertEquals(1, p1.getNumberOfTasks());
@@ -65,7 +203,7 @@ public class TestProject {
         assertEquals(1, p1.getNumberOfTasks());
         Task secondTask = new Task("2");
         p1.add(secondTask);
-        assertEquals(2,p1.getNumberOfTasks());
+        assertEquals(2, p1.getNumberOfTasks());
     }
 
     @Test
@@ -83,9 +221,9 @@ public class TestProject {
     }
 
     @Test
-    void testHashCodeForTask(){
+    void testHashCodeForTask() {
         Project p2 = new Project("project");
-        assertEquals(p1.hashCode(),p2.hashCode());
+        assertEquals(p1.hashCode(), p2.hashCode());
     }
 
     @Test
@@ -198,7 +336,7 @@ public class TestProject {
         assertEquals(8, p1.getEstimatedTimeToComplete());
         task2.setEstimatedTimeToComplete(2);
         task3.setEstimatedTimeToComplete(10);
-        assertEquals(20,p1.getEstimatedTimeToComplete());
+        assertEquals(20, p1.getEstimatedTimeToComplete());
 
         Project p2 = new Project("project2");
         Task task4 = new Task("task4");
@@ -253,8 +391,5 @@ public class TestProject {
             //
         }
     }
-
- 
-
 
 }
